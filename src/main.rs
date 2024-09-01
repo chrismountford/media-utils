@@ -1,12 +1,17 @@
 use converter::extract_film_name;
+use std::env;
 
 mod converter;
 
 fn main() {
-    let file = String::from("big_buck_bunny_720p_2mb.mp4");
-    let output_name = extract_film_name(&file);
+    let args: Vec<String> = env::args().collect();
+    let file_path = &args[1];
+    println!("Checking {file_path}");
 
-    converter::convert(&file, &output_name);
-    
+    let output_name = extract_film_name(&file_path);
+
+    let output_file: String = [output_name, String::from(".mov")].join("");
+    converter::convert(&file_path, &output_file);
+
     println!("Complete!");
 }
